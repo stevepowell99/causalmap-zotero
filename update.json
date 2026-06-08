@@ -1,0 +1,17 @@
+{
+  "addons": {
+    "causalmap@causalmap.app": {
+      "updates": [
+        {
+          "version": "0.4.3",
+          "update_link": "https://github.com/stevepowell99/causalmap-zotero/releases/download/v0.4.3/causalmap-zotero.xpi",
+          "applications": {
+            "zotero": {
+              "strict_min_version": "6.999"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

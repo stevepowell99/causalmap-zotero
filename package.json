@@ -1,0 +1,13 @@
+{
+  "name": "causalmap-zotero",
+  "version": "0.2.0",
+  "description": "Zotero plugin: turn a collection or selected items into a Causal Map project.",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/make-icon.js",
+    "pack": "node scripts/make-icon.js && node scripts/pack.js"
+  },
+  "devDependencies": {
+    "adm-zip": "^0.5.16"
+  }
+}

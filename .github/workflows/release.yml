@@ -1,0 +1,38 @@
+name: Release
+
+# Tag a version to release it: bump manifest.json version, then `git tag vX.Y.Z && git push --tags`.
+# This builds the .xpi, generates update.json for the tag, and attaches both to a GitHub Release.
+# manifest.json's update_url points at the latest release's update.json, so Zotero auto-updates.
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: npm install
+
+      - name: Build the .xpi
+        run: npm run pack
+
+      - name: Generate update.json for this tag
+        run: node scripts/make-update-json.js "${GITHUB_REF_NAME}"
+
+      - name: Create the release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            build/causalmap-zotero.xpi
+            update.json

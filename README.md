@@ -8,7 +8,9 @@ Turn a paper in your Zotero library into a causal map, a diagram of what causes 
 
 Pick an item in Zotero and choose **Make a Causal Map**. Causal Map reads the paper and draws a map: the boxes are factors taken from the text, the arrows are causal claims, and every arrow is backed by a quote from the paper. You then explore, filter, edit and share it in the Causal Map web app.
 
-**It is free to try.** It uses your own Causal Map account; new users sign up with one click and get monthly AI credits, enough to map roughly **15 papers of about 20 pages each, every month, at no cost** (on the default Gemini Flash model).
+![Right-click an item in Zotero and choose Make a Causal Map](images/zotero-menu.png)
+
+**It is free.** New users get free AI credits every month, enough to map around **15 papers of roughly 20 pages each** on the default Gemini Flash model. Signing up takes one click and there is nothing to pay.
 
 ![Importing a paper from Zotero into Causal Map](images/import-from-zotero.png)
 

@@ -4,13 +4,19 @@ Turn a paper in your Zotero library into a causal map, a diagram of what causes 
 
 ![A causal map of wellbeing produced by Causal Map](images/map-wellbeing.png)
 
+## What is a causal map?
+
+A causal map shows what causes what. Each box is a factor and each arrow is a causal claim, meaning the text says the first factor influences the second. The map is drawn straight from the words of the paper, and every arrow keeps the quote that backs it. So instead of reading a paper to reconstruct its argument, you see the whole web of causes and effects at once: which factors drive the main outcomes, which recur most often, and which sentence supports each link.
+
+Researchers use causal maps to make sense of a single study or to bring many together: mapping interview findings, building a theory of change, comparing what different papers say causes the same outcome, or reviewing a literature as one connected picture rather than a pile of PDFs. Because each arrow carries its source quote, any claim traces back to the text.
+
 ## What it does
 
 Pick an item in Zotero and choose **Make a Causal Map**. Causal Map reads the paper and draws a map: the boxes are factors taken from the text, the arrows are causal claims, and every arrow is backed by a quote from the paper. You then explore, filter, edit and share it in the Causal Map web app.
 
 ![Right-click an item in Zotero and choose Make a Causal Map](images/zotero-menu.png)
 
-**It is free.** New users get free AI credits every month, enough to map around **15 papers of roughly 20 pages each** on the default Gemini Flash model. Signing up takes one click and there is nothing to pay.
+**It is free for about 300 pages a month.** New users get free AI credits every month, enough for roughly **300 pages of coding** on the default Gemini Flash model. Signing up takes one click and there is nothing to pay.
 
 ![Importing a paper from Zotero into Causal Map](images/import-from-zotero.png)
 
@@ -36,7 +42,7 @@ The new project is private to your account. Rename, edit, share or export it lik
 
 - One item at a time for now. Mapping a whole collection is on the way.
 - The paper needs a readable attachment (a PDF Zotero has indexed). Items with no text are skipped.
-- It is free to try. A free account gets 10 AI credits a month, and coding runs about 30 pages per credit, so a free user can map roughly 15 papers of about 20 pages each per month at no cost on Gemini Flash. Heavier use needs a paid plan.
+- It is free for about 300 pages a month. A free account gets 10 AI credits a month, and coding runs about 30 pages per credit, so roughly 300 pages of coding on Gemini Flash at no cost. Heavier use needs a paid plan.
 - Only send material you have the right to process. The text goes to Causal Map under your account, the same as if you had uploaded the PDF yourself.
 
 ---

@@ -1,69 +1,63 @@
 # Causal Map for Zotero
 
-A Zotero 7/8/9 plugin that turns a Zotero item into a Causal Map project and codes it, without leaving Causal Map after a single Approve click.
+Turn a paper in your Zotero library into a causal map, a diagram of what causes what, in a couple of clicks.
 
-The server side (pairing Edge Function, migrations, the in-app approve/import/code handler) lives in the main app repo at `causal-map-extension/docs/zotero/`. This README covers the plugin and how to release it.
+![A causal map of wellbeing produced by Causal Map](images/map-wellbeing.png)
 
 ## What it does
 
-Right-click a single item, choose **Make a Causal Map**. The plugin:
+Pick an item in Zotero and choose **Make a Causal Map**. Causal Map reads the paper and draws a map: the boxes are factors taken from the text, the arrows are causal claims, and every arrow is backed by a quote from the paper. You then explore, filter, edit and share it in the Causal Map web app.
 
-1. Reads the item title (used as the project name) and its best attachment's indexed full text.
-2. Shows a one-time consent notice, then opens Causal Map and pairs with your account (device pairing; the plugin never holds your login).
-3. You click **Approve** once in the browser. Causal Map imports the text, opens the new project, and runs one-click coding, shown in a progress modal.
+**It is free to try.** It uses your own Causal Map account; new users sign up with one click and get monthly AI credits, enough to map roughly **15 papers of about 20 pages each, every month, at no cost** (on the default Gemini Flash model).
 
-Collection and multi-item selection currently show a "coming soon" message; single item is the supported path.
+![Importing a paper from Zotero into Causal Map](images/import-from-zotero.png)
 
-## Build
+## Install
+
+1. Download the plugin: [causalmap-zotero.xpi](https://github.com/stevepowell99/causalmap-zotero/releases/latest/download/causalmap-zotero.xpi)
+2. In Zotero, go to **Tools, Plugins**, click the gear icon, choose **Install Plugin From File**, and pick the file you downloaded.
+3. Restart Zotero.
+
+That is all. Zotero plugins need no signing, so it installs straight away, and it updates itself when a new version is released.
+
+## How to use
+
+1. Right-click an item in your library (one with a PDF that Zotero has read) and choose **Make a Causal Map**.
+2. A Causal Map tab opens in your browser. Sign in or sign up, then click **Approve**.
+3. Causal Map imports the paper and codes it. When it finishes, your map appears.
+
+![A causal map of loneliness interviews](images/map-loneliness.png)
+
+The new project is private to your account. Rename, edit, share or export it like any other Causal Map project.
+
+## Good to know
+
+- One item at a time for now. Mapping a whole collection is on the way.
+- The paper needs a readable attachment (a PDF Zotero has indexed). Items with no text are skipped.
+- It is free to try. A free account gets 10 AI credits a month, and coding runs about 30 pages per credit, so a free user can map roughly 15 papers of about 20 pages each per month at no cost on Gemini Flash. Heavier use needs a paid plan.
+- Only send material you have the right to process. The text goes to Causal Map under your account, the same as if you had uploaded the PDF yourself.
+
+---
+
+## How it works
+
+The plugin reads the item's text and hands it to the hosted Causal Map app, which creates the project and runs the normal coding. It never holds your login: you approve a short-lived pairing in the browser, and Causal Map does the rest.
+
+- It talks to the hosted service at app.causalmap.app (and the Causal Map database). There is nothing to install or run locally.
+- It is a standard Zotero 7/8/9 bootstrapped plugin.
+- The server side (the pairing function and import flow) lives in the main Causal Map app repository, under `docs/zotero`.
+
+## Releasing (maintainers)
+
+Bump `version` in `manifest.json`, then `git tag vX.Y.Z && git push --tags`. A GitHub Action builds the `.xpi`, generates `update.json`, and publishes a release; installed users update automatically. See `.github/workflows/release.yml`.
+
+## Modify the plugin (developers)
+
+To change the plugin, clone the repo and build the `.xpi`:
 
 ```
 npm install
-npm run build      # generates the menu icon
-npm run pack       # writes build/causalmap-zotero.xpi
+npm run pack    # writes build/causalmap-zotero.xpi
 ```
 
-`pack` uses adm-zip (pure JS), no external tools. The `.xpi` is a plain zip with `manifest.json` at the root.
-
-## Install (for users)
-
-Zotero: Tools, Plugins, gear icon, Install Plugin From File, pick the `.xpi`. Zotero does not require signing, so it installs directly. Restart Zotero.
-
-Note: the manifest must include `applications.zotero.update_url` or Zotero rejects the install as invalid.
-
-## Local testing against a dev webapp
-
-Set a string pref `extensions.causalmap.appUrl` (Zotero, Settings, Advanced, Config Editor) to your local URL, e.g. `http://localhost:8000`. Leave it unset for production (`app.causalmap.app`). The Edge Function and database are always the remote Supabase, so only the page the plugin opens changes.
-
-## Distribution
-
-Zotero has **no official store** (one is planned) and requires **no signing or review**. So:
-
-1. **Host the `.xpi` on GitHub Releases.** Create the public repo `stevepowell99/causalmap-zotero`, push, and for each version cut a release `vX.Y.Z` with `causalmap-zotero.xpi` attached.
-2. **Auto-update** via `update.json` (in this repo), which `manifest.json`'s `update_url` points at. Zotero polls it and updates users when the listed version is higher. Keep `update.json` on `main` pointing at the latest release asset. Format:
-   ```json
-   {
-     "addons": {
-       "causalmap@causalmap.app": {
-         "updates": [
-           { "version": "0.4.3",
-             "update_link": "https://github.com/stevepowell99/causalmap-zotero/releases/download/v0.4.3/causalmap-zotero.xpi",
-             "applications": { "zotero": { "strict_min_version": "6.999" } } }
-         ]
-       }
-     }
-   }
-   ```
-3. **Discovery** (no store, so):
-   - Post in the Zotero Forums plugins section to get listed on `zotero.org/support/plugins` (the community list).
-   - That list feeds the third-party **Add-on Market for Zotero** (Syt2), the de facto in-app browser.
-   - Link from causalmap.app.
-
-For a private beta, skip all of the above and just send the `.xpi`.
-
-A GitHub Actions workflow can build the `.xpi` and bump `update.json` on each tag, so releasing is one `git tag`. Not set up yet.
-
-## Notes
-
-- Text quality depends on Zotero's own full-text index of the attachment. Items without indexed text are skipped.
-- The plugin only writes a project to the user's own account; imported projects are private by default.
-- A browser extension ("causally map this page") could reuse the same backend; see `causal-map-extension/docs/zotero/`.
+Install that file as above. There is no local backend: the plugin still uses the hosted Causal Map. To point it at a local webapp while developing, set the Zotero pref `extensions.causalmap.appUrl` to your local URL (Settings, Advanced, Config Editor).

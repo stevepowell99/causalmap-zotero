@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Causal Map for Zotero",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Turn a Zotero item into a Causal Map project.",
   "author": "Causal Map Ltd",
   "homepage_url": "https://causalmap.app",

@@ -16,7 +16,7 @@ Pick an item in Zotero and choose **Make a Causal Map**. Causal Map reads the pa
 
 ![Right-click an item in Zotero and choose Make a Causal Map](images/zotero-menu.png)
 
-**It is free for about 300 pages a month.** New users get free AI credits every month, enough for roughly **300 pages of coding** on the default Gemini Flash model. Signing up takes one click and there is nothing to pay.
+**It is free to use, up to about 300 pages a month.** New users get free AI credits every month, enough for roughly **300 pages of coding** on the default Gemini Flash model. Signing up takes one click and there is nothing to pay.
 
 ![Importing a paper from Zotero into Causal Map](images/import-from-zotero.png)
 

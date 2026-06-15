@@ -31,7 +31,7 @@ jobs:
         run: node scripts/make-update-json.js "${GITHUB_REF_NAME}"
 
       - name: Create the release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: |
             build/causalmap-zotero.xpi

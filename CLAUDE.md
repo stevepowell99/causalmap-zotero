@@ -17,8 +17,9 @@ The **Causal Map for Zotero** plugin: right-click a Zotero item, choose *Make a 
 
 There is **no official Zotero plugin directory and no PR to open**. The zotero.org plugins page states a directory is only "planned". Do not look for a `zotero/zotero-plugins` repo: it does not exist.
 
-- **Announce in the Zotero Forums** (`forums.zotero.org`): this is the real publication step. Post a new discussion (e.g. `[New Plugin] Causal Map for Zotero`) and optionally add a line to the long-running "Zotero 7 Plugins" thread.
+- **Announce in the Zotero Forums** (`forums.zotero.org`): this is the real publication step. Post a new discussion (done: `Causal Map for Zotero`, discussion 132261). Do not revive the old "Zotero 7 Plugins" roundup thread (105151); it dates from the Zotero 7 beta and is stale, so a post there is noise.
 - **Community indexes** (optional, for discoverability, not official):
-  - `zotero-chinese/zotero-plugins` (English site `zotero-chinese.com/en/plugins`): the most comprehensive list. Add an entry to `src/plugins.ts` and PR. The repo is flagged maintenance-suspended, so a PR may sit; open it anyway, do not wait on it before announcing.
-  - `MohamedElashri/awesome-zotero`: hand-curated README list, still active, quicker to land.
+  - `syt2/zotero-addons-scraper`: **the channel that matters** and the one we are in. It feeds the in-Zotero "Add-on Market" UI (the `syt2/zotero-addons` plugin), where users browse and install from inside Zotero. We are listed (PR #134 merged, 2026-06-23). To submit: add an empty-or-JSON file named `addons/{owner}@{repo}` (ours: `addons/stevepowell99@causalmap-zotero` containing `{"tags": ["integration", "ai"]}`), then PR. Tags are a fixed set of up to two: `ai`, `metadata`, `reader`, `notes`, `attachment`, `interface`, `integration`, `utility` (no causal/causation tag). A bot auto-reviews tags on the PR.
+  - `zotero-chinese/zotero-plugins` (English site `zotero-chinese.com/en/plugins`): **closed to new submissions**; its README now redirects everyone to `syt2/zotero-addons-scraper` (above). Do not PR here.
+  - `MohamedElashri/awesome-zotero`: hand-curated README list. Our PR #53 was **closed without comment** (2026-06-23); the repo's policy filters out new and AI-assisted tools by default. Low-value (static page). Revisit later, see `resubmit to awesome-zotero xkLATER.md`.
 - The plugin does nothing a user could not do by hand under their own account, so the IP/confidentiality posture equals manual upload (see the app-side doc).

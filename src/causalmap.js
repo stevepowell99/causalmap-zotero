@@ -80,18 +80,10 @@ var CausalMap = {
 			}
 
 			let pane = Zotero.getActiveZoteroPane();
-			let items = (pane.getSelectedItems() || []).filter(it => it.isRegularItem && it.isRegularItem());
-			if (items.length === 0) {
-				Services.prompt.alert(window, 'Causal Map', 'Select a single item first, then try again.');
-				return;
-			}
-			if (items.length > 1) {
-				Services.prompt.alert(window, 'Causal Map',
-					'Mapping multiple items at once is coming soon. Select a single item for now.');
-				return;
-			}
-			let item = items[0];
-			let defaultName = item.getField('title') || item.getDisplayTitle() || 'Zotero item';
+			let target = this._resolveTarget(window, pane.getSelectedItems() || []);
+			if (!target) return; // _resolveTarget already showed the right message
+			let { item, attachment } = target;
+			let defaultName = this._field(item, 'title') || item.getDisplayTitle() || 'Zotero item';
 
 			if (!this._hasConsent()) {
 				let consentText = 'This sends the full text of the selected item to Causal Map (app.causalmap.app), under your account, for AI processing.\n\n'
@@ -104,20 +96,21 @@ var CausalMap = {
 			if (!Services.prompt.prompt(window, 'Causal Map', 'Project name:', nameInput, null, {})) return;
 			let projectName = (nameInput.value || '').trim() || defaultName;
 
-			let text = await this._getItemText(item);
+			let text = await this._getItemText(item, attachment);
 			if (!text) {
-				Services.prompt.alert(window, 'Causal Map',
-					'No extractable text found. The item needs an attachment with indexed full text (for example a PDF Zotero has indexed).');
+				Services.prompt.alert(window, 'Causal Map', attachment
+					? 'No extractable text found in that PDF. Zotero needs to have indexed its full text first (open it once, or right-click the PDF and "Recreate Text Index").'
+					: 'No extractable text found. The item needs an attachment with indexed full text (for example a PDF Zotero has indexed).');
 				return;
 			}
 			let sources = [{
 				id: item.key,
-				title: item.getField('title') || item.getDisplayTitle(),
+				title: this._field(item, 'title') || item.getDisplayTitle(),
 				content: text,
 				authors: this._getAuthors(item),
 				year: this._getYear(item),
-				doi: item.getField('DOI') || '',
-				url: item.getField('url') || ''
+				doi: this._field(item, 'DOI'),
+				url: this._field(item, 'url')
 			}];
 			let totalChars = text.length;
 
@@ -196,8 +189,52 @@ var CausalMap = {
 		return false;
 	},
 
-	// Prefer Zotero's best attachment; fall back to scanning all attachments.
-	async _getItemText(item) {
+	// Resolve the current selection to a single { item, attachment } target.
+	// Accepts a regular item OR a PDF/attachment: a PDF resolves to its parent item, and that
+	// specific PDF is then used as the source (so picking one of several PDFs works). Returns
+	// null after showing the right message when the selection is empty, multiple, or unusable.
+	_resolveTarget(window, selected) {
+		if (selected.length === 0) {
+			Services.prompt.alert(window, 'Causal Map', 'Select an item or a PDF first, then try again.');
+			return null;
+		}
+		if (selected.length > 1) {
+			Services.prompt.alert(window, 'Causal Map',
+				'Mapping multiple items at once is coming soon. Select a single item or PDF for now.');
+			return null;
+		}
+		let sel = selected[0];
+		if (sel.isRegularItem && sel.isRegularItem()) {
+			return { item: sel, attachment: null };
+		}
+		if (sel.isAttachment && sel.isAttachment()) {
+			let parent = sel.parentItem;
+			if (parent && parent.isRegularItem()) return { item: parent, attachment: sel };
+			// Standalone attachment with no parent item: use the file itself.
+			return { item: sel, attachment: sel };
+		}
+		Services.prompt.alert(window, 'Causal Map', 'Select a library item or a PDF attachment.');
+		return null;
+	},
+
+	// Read an item field without throwing on fields the item type does not support.
+	_field(item, name) {
+		try { return item.getField(name) || ''; }
+		catch (e) { return ''; }
+	},
+
+	// A specific attachment was chosen (e.g. one of several PDFs): use it directly.
+	// Otherwise prefer Zotero's best attachment and fall back to scanning all attachments.
+	async _getItemText(item, attachment) {
+		if (attachment) {
+			try {
+				let t = await attachment.attachmentText;
+				if (t && t.trim()) return t;
+			}
+			catch (e) { /* no indexed text on the chosen PDF */ }
+			return '';
+		}
+
 		try {
 			let best = await item.getBestAttachment();
 			if (best) {
@@ -228,7 +265,7 @@ var CausalMap = {
 	},
 
 	_getYear(item) {
-		let date = item.getField('date');
+		let date = this._field(item, 'date');
 		if (!date) return '';
 		try {
 			let parsed = Zotero.Date.strToDate(date);

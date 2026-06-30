@@ -30,7 +30,7 @@ That is all. Zotero plugins need no signing, so it installs straight away, and i
 
 ## How to use
 
-1. Right-click an item in your library (one with a PDF that Zotero has read) and choose **Make a Causal Map**.
+1. Right-click an item in your library (one with a PDF that Zotero has read) and choose **Make a Causal Map**. If the item has more than one PDF, right-click the exact PDF you want instead, and that one is used.
 2. A Causal Map tab opens in your browser. Sign in or sign up, then click **Approve**.
 3. Causal Map imports the paper and codes it. When it finishes, your map appears.
 
@@ -42,6 +42,7 @@ The new project is private to your account. Rename, edit, share or export it lik
 
 - One item at a time for now. Mapping a whole collection is on the way.
 - The paper needs a readable attachment (a PDF Zotero has indexed). Items with no text are skipped.
+- Two PDFs on one item? Right-click the specific PDF rather than the item, and that file is the source. Right-clicking the item uses Zotero's main attachment.
 - It is free for about 300 pages a month. A free account gets 10 AI credits a month, and coding runs about 30 pages per credit, so roughly 300 pages of coding on Gemini Flash at no cost. Heavier use needs a paid plan.
 - Only send material you have the right to process. The text goes to Causal Map under your account, the same as if you had uploaded the PDF yourself.
 

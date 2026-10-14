@@ -26,7 +26,7 @@ Pick an item in Zotero and choose **Make a Causal Map**. Causal Map reads the pa
 2. In Zotero, go to **Tools, Plugins**, click the gear icon, choose **Install Plugin From File**, and pick the file you downloaded.
 3. Restart Zotero.
 
-That is all. Zotero plugins need no signing, so it installs straight away, and it updates itself when a new version is released.
+That is all. Zotero plugins need no signing, so it installs straight away, and it updates itself when a new version is released. If the plugin disappeared when you upgraded to Zotero 10, install it again from the link above.
 
 ## How to use
 

@@ -53,7 +53,7 @@ The new project is private to your account. Rename, edit, share or export it lik
 The plugin reads the item's text and hands it to the hosted Causal Map app, which creates the project and runs the normal coding. It never holds your login: you approve a short-lived pairing in the browser, and Causal Map does the rest.
 
 - It talks to the hosted service at app.causalmap.app (and the Causal Map database). There is nothing to install or run locally.
-- It is a standard Zotero 7/8/9 bootstrapped plugin.
+- It is a standard Zotero 7/8/9/10 bootstrapped plugin.
 - The server side (the pairing function and import flow) lives in the main Causal Map app repository, under `docs/zotero`.
 
 ## Releasing (maintainers)
